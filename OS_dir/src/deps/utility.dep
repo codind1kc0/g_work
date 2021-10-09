@@ -1,0 +1,1 @@
+objs/utility.o deps/utility.dep : utility.c utility.h type.h

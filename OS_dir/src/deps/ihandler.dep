@@ -1,0 +1,2 @@
+objs/ihandler.o deps/ihandler.dep : ihandler.c interrupt.h kernel.h type.h const.h task.h queue.h \
+ list.h utility.h app.h event.h memory.h mutex.h screen.h

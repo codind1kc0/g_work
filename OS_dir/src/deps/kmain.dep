@@ -1,0 +1,2 @@
+objs/kmain.o deps/kmain.dep : kmain.c task.h kernel.h type.h const.h queue.h list.h utility.h \
+ app.h event.h memory.h mutex.h interrupt.h screen.h

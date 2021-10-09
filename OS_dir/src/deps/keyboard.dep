@@ -1,0 +1,2 @@
+objs/keyboard.o deps/keyboard.dep : keyboard.c keyboard.h utility.h type.h task.h kernel.h \
+ const.h queue.h list.h app.h event.h memory.h mutex.h

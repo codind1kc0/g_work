@@ -1,0 +1,2 @@
+objs/task.o deps/task.dep : task.c utility.h type.h task.h kernel.h const.h queue.h list.h \
+ app.h event.h memory.h mutex.h screen.h

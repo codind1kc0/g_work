@@ -1,0 +1,2 @@
+objs/mutex.o deps/mutex.dep : mutex.c mutex.h type.h list.h const.h utility.h memory.h task.h \
+ kernel.h queue.h app.h event.h

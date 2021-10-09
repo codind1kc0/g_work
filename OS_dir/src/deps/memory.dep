@@ -1,0 +1,1 @@
+objs/memory.o deps/memory.dep : memory.c memory.h utility.h type.h list.h const.h

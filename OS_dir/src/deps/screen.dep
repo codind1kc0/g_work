@@ -1,0 +1,1 @@
+objs/screen.o deps/screen.dep : screen.c screen.h type.h const.h

@@ -1,0 +1,2 @@
+objs/interrupt.o deps/interrupt.dep : interrupt.c utility.h type.h interrupt.h kernel.h const.h \
+ ihandler.h

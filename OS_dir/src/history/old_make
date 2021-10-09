@@ -1,0 +1,71 @@
+.PHONY: all clean rebuild run
+
+KERNEL_ADDR := B000
+
+
+AS  := nasm
+IMG := Cstart.img
+BOOT_SRC := boot.asm
+BOOT := $(BOOT_SRC:.asm=.bin)
+
+MOUNT := /mnt/hgfs
+
+LOAD_SRC := loader.asm
+LOADER := $(LOAD_SRC:.asm=.bin)
+
+KERNEL_BIN := kernel
+
+COMM_ASM := common.asm
+
+BL_FUNC := blfunc.asm
+
+KENTRY := kentry.asm
+KENTRY_OBJ := obj/$(KENTRY:.asm=.o)
+
+KMAIN := kmain.c
+KMAIN_OBJ := obj/$(KMAIN:.c=.o)
+CFLAG := -m32 -fno-stack-protector -fno-builtin 
+LDFLAG := --format binary -e0x9000 -melf_i386 -s 
+
+all: $(IMG) $(BOOT) $(KERNEL_BIN) $(LOADER)
+	@echo "start copy..."
+	@echo "success!"
+
+$(IMG):
+	@dd if=/dev/zero of=$@ count=1024 bs=1440
+	@echo "init img..."
+
+#$(BOOT): $(BOOT_SRC) $(BL_FUNC)
+	#$(AS) -o $@ $<
+
+#$(KERNEL_BIN):$(KMAIN_OBJ) $(KENTRY_OBJ)
+	#@ld $(LDFLAG) $(KENTY_OBJ) $(KMAIN_OBJ) -o exes/$@
+	
+#$(KENTRY_OBJ):$(KENTRY)
+	#@nasm -felf -o $@ $< 
+#$(KMAIN_OBJ):$(KMAIN)
+	#gcc $(CFLAG) -o $@ $<
+
+	
+
+$(LOADER): $(LOAD_SRC) $(COMM_ASM) $(BL_FUNC) $(KERNEL_BIN) 
+	$(AS) -o $@ $<;
+	@sudo mount -oloop ../img_file/data.img $(MOUNT);
+	@sudo cp $@ $(MOUNT)/LOADER;
+	@sudo cp exes/$(KERNEL_BIN) $(MOUNT)/KERNEL
+	@sudo umount $(MOUNT);
+	@cp ../img_file/data.img $(IMG);
+	@dd if=$(BOOT) of=$(IMG) count=512 bs=1 conv=notrunc;
+	@echo "loader ok..."
+   
+run:
+	@bochs -f ../img_file/bochsrc
+
+clean:
+	rm -rf $(BOOT) $(LOADER) obj/*.o
+
+rebuild: clean all
+
+#nasm -felf -o obj/kentry.o kentry.asm 
+#gcc -m32 -fno-stack-protector -fno-builtin -o obj/kmain.o kmain.c
+#ld --oformat binary -e0x9000 -melf_i386 -s obj/kentry.o obj/kmain.o -o kernel

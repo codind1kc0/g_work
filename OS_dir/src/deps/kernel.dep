@@ -1,0 +1,1 @@
+objs/kernel.o deps/kernel.dep : kernel.c kernel.h type.h const.h

@@ -1,0 +1,1 @@
+objs/event.o deps/event.dep : event.c event.h type.h memory.h utility.h list.h const.h
